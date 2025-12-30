@@ -1,0 +1,1187 @@
+/*
+===============================================================================
+PROGRAM 11: DELETE FROM END
+===============================================================================
+Question: Write a C program to delete element from end of list.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+int list_end_del[MAX];
+int n_end_del = 0;
+
+void insert_end_del() {
+    if(n_end_del == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    printf("Enter value: ");
+    scanf("%d", &list_end_del[n_end_del]);
+    n_end_del++;
+}
+
+void delete_end() {
+    if(n_end_del == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    n_end_del--;
+    printf("Deleted from End\n");
+}
+
+void display_end_del() {
+    int i;
+    if(n_end_del == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    printf("List: ");
+    for(i = 0; i < n_end_del; i++)
+        printf("%d ", list_end_del[i]);
+    printf("\n");
+}
+
+void program11() {
+    int choice;
+    
+    while(1) {
+        printf("\n1. Insert\n2. Delete from End\n");
+        printf("3. Display\n4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_end_del(); break;
+            case 2: delete_end(); break;
+            case 3: display_end_del(); break;
+            case 4: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+1. Insert
+2. Delete from End
+3. Display
+4. Exit
+Enter choice: 1
+Enter value: 15
+
+Enter choice: 1
+Enter value: 30
+
+Enter choice: 1
+Enter value: 45
+
+Enter choice: 2
+Deleted from End
+
+Enter choice: 3
+List: 15 30
+
+Enter choice: 4
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is empty (n == 0)
+Step 2: If empty, show error message and return
+Step 3: Simply decrement size counter: n--
+Step 4: No shifting of elements required
+Step 5: Last element becomes inaccessible
+Step 6: Most efficient deletion operation
+Step 7: Time complexity: O(1) - constant time
+Step 8: Space complexity: O(1)
+Step 9: Array value not cleared (overwritten later)
+Step 10: Logical deletion - element just unreachable
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: Why is deletion from end most efficient?
+No Shifting:
+• Elements don't need to move
+• Just adjust size counter
+• Time: O(1) constant time
+Logical Deletion:
+• Element still in memory
+• Made inaccessible by n--
+• Will be overwritten on next insert
+Space:
+• O(1) - no extra space
+• In-place operation
+Comparison:
+• Delete from beginning: O(n)
+• Delete from end: O(1)
+• Delete from middle: O(n)
+Best Practice:
+• Use end deletion when order doesn't matter
+
+Q2: What is the impact of deletion on array size?
+Logical Size (n):
+• Number of valid elements
+• Decremented on deletion
+• Used for bounds checking
+Physical Size (MAX):
+• Total array capacity
+• Never changes (static array)
+• Fixed at compile time
+Memory:
+• Physical memory unchanged
+• Deleted elements remain in memory
+• Values may persist until overwritten
+Dynamic Arrays:
+• Can shrink physical size
+• Use realloc() to reduce memory
+• Trade-off: performance vs space
+
+Q3: Compare deletion in Array vs Linked List.
+Array - Delete from End:
+• Time: O(1)
+• Just decrement size
+• No memory deallocation
+• Space remains allocated
+Array - Delete from Beginning:
+• Time: O(n)
+• Shift all elements
+• Costly operation
+Linked List - Delete from End:
+• Time: O(n) without tail pointer
+• Must traverse to find last node
+• O(1) with tail pointer
+Linked List - Delete from Beginning:
+• Time: O(1)
+• Just move head pointer
+• Free memory
+Trade-off:
+• Array: Fast end deletion
+• Linked List: Fast beginning deletion
+*/
+
+/*
+===============================================================================
+PROGRAM 12: DELETE FROM MIDDLE
+===============================================================================
+Question: Write a C program to delete element from specified position.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+int list_mid_del[MAX];
+int n_mid_del = 0;
+
+void insert_mid_del() {
+    if(n_mid_del == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    printf("Enter value: ");
+    scanf("%d", &list_mid_del[n_mid_del]);
+    n_mid_del++;
+}
+
+void delete_middle() {
+    int pos, i;
+    
+    if(n_mid_del == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    
+    printf("Enter position: ");
+    scanf("%d", &pos);
+    
+    if(pos < 1 || pos > n_mid_del) {
+        printf("Invalid Position\n");
+        return;
+    }
+    
+    // Shift elements left from position+1
+    for(i = pos - 1; i < n_mid_del - 1; i++)
+        list_mid_del[i] = list_mid_del[i + 1];
+    
+    n_mid_del--;
+    printf("Deleted from Middle\n");
+}
+
+void display_mid_del() {
+    int i;
+    if(n_mid_del == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    printf("List: ");
+    for(i = 0; i < n_mid_del; i++)
+        printf("%d ", list_mid_del[i]);
+    printf("\n");
+}
+
+void program12() {
+    int choice;
+    
+    while(1) {
+        printf("\n1. Insert\n2. Delete from Middle\n");
+        printf("3. Display\n4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_mid_del(); break;
+            case 2: delete_middle(); break;
+            case 3: display_mid_del(); break;
+            case 4: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+1. Insert
+2. Delete from Middle
+3. Display
+4. Exit
+Enter choice: 1
+Enter value: 10
+
+Enter choice: 1
+Enter value: 20
+
+Enter choice: 1
+Enter value: 30
+
+Enter choice: 2
+Enter position: 2
+Deleted from Middle
+
+Enter choice: 3
+List: 10 30
+
+Enter choice: 4
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is empty
+Step 2: Accept position to delete (1-based indexing)
+Step 3: Validate position: 1 <= pos <= n
+Step 4: Shift elements after position, one place left
+Step 5: Start from position index to n-2
+Step 6: list[i] = list[i+1]
+Step 7: Decrement size counter n
+Step 8: Gap filled by shifting
+Step 9: Time complexity: O(n) in worst case
+Step 10: Number of shifts = n - position
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: How to delete element at specific position?
+Algorithm:
+1. Validate position: 1 <= pos <= n
+2. Convert to 0-based index: idx = pos - 1
+3. Shift elements from idx+1 to end
+4. Each element moves one position left
+5. Decrement size counter
+6. Display success message
+Example:
+• Array: [10, 20, 30, 40, 50]
+• Delete position 3 (element 30)
+• After: [10, 20, 40, 50]
+• Shifts: 40→index 2, 50→index 3
+
+Q2: What is complexity analysis for deletion?
+Best Case - Delete from End:
+• Position = n
+• No shifting required
+• Time: O(1)
+Worst Case - Delete from Beginning:
+• Position = 1
+• Shift all n-1 elements
+• Time: O(n)
+Average Case - Delete from Middle:
+• Position = n/2
+• Shift approximately n/2 elements
+• Time: O(n/2) = O(n)
+Space Complexity:
+• O(1) - in-place deletion
+• No extra array needed
+Formula:
+• Delete at position k: O(n-k) shifts
+
+Q3: How to delete by value instead of position?
+Algorithm:
+1. Search for the value in array
+2. If found, note the index
+3. Shift elements from index+1 to end
+4. Decrement size
+5. If not found, show error
+Code Structure:
+```c
+int i, found = -1;
+// Search for value
+for(i = 0; i < n; i++) {
+    if(list[i] == value) {
+        found = i;
+        break;
+    }
+}
+if(found == -1) {
+    printf("Value not found\n");
+    return;
+}
+// Shift elements
+for(i = found; i < n-1; i++)
+    list[i] = list[i+1];
+n--;
+```
+Complexity:
+• Search: O(n)
+• Shift: O(n)
+• Total: O(n)
+*/
+
+/*
+===============================================================================
+PROGRAM 13: DOUBLY LINKED LIST - INSERT AT BEGINNING
+===============================================================================
+Question: Write a C program to implement doubly linked list with insertion 
+          at beginning using arrays.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int data_dll[MAX];
+int prev_dll[MAX];
+int next_dll[MAX];
+int head_dll = -1;
+int freePos_dll = 0;
+
+void init_dll() {
+    int i;
+    for(i = 0; i < MAX - 1; i++)
+        next_dll[i] = i + 1;
+    next_dll[MAX - 1] = -1;
+}
+
+void insert_begin_dll() {
+    int newnode, value;
+    
+    if(freePos_dll == -1) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    printf("Enter value to insert: ");
+    scanf("%d", &value);
+    
+    // Get node from free list
+    newnode = freePos_dll;
+    freePos_dll = next_dll[freePos_dll];
+    
+    // Set node data
+    data_dll[newnode] = value;
+    prev_dll[newnode] = -1;
+    next_dll[newnode] = head_dll;
+    
+    // Update previous head
+    if(head_dll != -1)
+        prev_dll[head_dll] = newnode;
+    
+    // Update head
+    head_dll = newnode;
+    printf("Value inserted at beginning\n");
+}
+
+void display_dll() {
+    int temp;
+    
+    if(head_dll == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Doubly Linked List elements: ");
+    temp = head_dll;
+    while(temp != -1) {
+        printf("%d ", data_dll[temp]);
+        temp = next_dll[temp];
+    }
+    printf("\n");
+}
+
+void program13() {
+    int choice;
+    
+    init_dll();
+    
+    while(1) {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert at Beginning\n");
+        printf("2. Display List\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_begin_dll(); break;
+            case 2: display_dll(); break;
+            case 3: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert at Beginning
+2. Display List
+3. Exit
+Enter your choice: 1
+Enter value to insert: 7
+Value inserted at beginning
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 14
+Value inserted at beginning
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 21
+Value inserted at beginning
+
+--- MENU ---
+Enter your choice: 2
+Doubly Linked List elements: 21 14 7
+
+--- MENU ---
+Enter your choice: 3
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Initialize free list - all nodes linked sequentially
+Step 2: next[0]=1, next[1]=2, ..., next[MAX-1]=-1
+Step 3: Get new node from free list (freePos)
+Step 4: Update freePos to next available node
+Step 5: Set node data and pointers:
+   - data[newnode] = value
+   - prev[newnode] = -1 (first node)
+   - next[newnode] = current head
+Step 6: Update previous head's prev pointer
+Step 7: Update head to new node
+Step 8: Time: O(1) - constant time insertion
+Step 9: Doubly linked allows bidirectional traversal
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What is Doubly Linked List? How does it differ from Singly?
+Doubly Linked List (DLL):
+• Each node has two pointers: prev and next
+• Can traverse forward and backward
+• Bidirectional traversal possible
+• More memory per node (2 pointers)
+• Easier deletion (no predecessor needed)
+Singly Linked List (SLL):
+• Each node has one pointer: next
+• Only forward traversal
+• Less memory per node (1 pointer)
+• Need predecessor for deletion
+Structure Comparison:
+• SLL: [data|next] → [data|next] → NULL
+• DLL: NULL ← [prev|data|next] ↔ [prev|data|next] → NULL
+
+Q2: What are advantages of Doubly Linked List?
+Bidirectional Traversal:
+• Move forward and backward
+• Useful for navigation (browser history)
+• Can traverse from any node
+Efficient Deletion:
+• Delete node without predecessor pointer
+• Use prev pointer to access previous node
+• O(1) if node pointer given
+Insert Before:
+• Easy to insert before a given node
+• Use prev pointer
+• Not possible in SLL without traversal
+Applications:
+• Browser back/forward buttons
+• Music player (prev/next song)
+• LRU Cache implementation
+• Deque (Double-ended queue)
+
+Q3: What is array-based linked list implementation?
+Concept:
+• Use arrays instead of dynamic memory
+• Three parallel arrays: data[], prev[], next[]
+• Indices act as pointers
+• No malloc/free needed
+Free List:
+• Maintains available nodes
+• Initially all nodes in free list
+• Allocation: Take from free list
+• Deallocation: Return to free list
+Advantages:
+• No memory fragmentation
+• Faster allocation/deallocation
+• No pointer overhead
+• Cache friendly
+Disadvantages:
+• Fixed maximum size
+• Wasted space if not fully used
+• Less flexible than dynamic allocation
+*/
+
+// Continue in next artifact..
+
+/*
+===============================================================================
+PROGRAM 14: DOUBLY LINKED LIST - INSERT AT END
+===============================================================================
+Question: Write a C program to insert element at end of doubly linked list.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int data_dll2[MAX];
+int prev_dll2[MAX];
+int next_dll2[MAX];
+int head_dll2 = -1;
+int freePos_dll2 = 0;
+
+void init_dll2() {
+    int i;
+    for(i = 0; i < MAX - 1; i++)
+        next_dll2[i] = i + 1;
+    next_dll2[MAX - 1] = -1;
+}
+
+void insert_end_dll() {
+    int newnode, value, temp;
+    
+    if(freePos_dll2 == -1) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    printf("Enter value to insert: ");
+    scanf("%d", &value);
+    
+    newnode = freePos_dll2;
+    freePos_dll2 = next_dll2[freePos_dll2];
+    
+    data_dll2[newnode] = value;
+    next_dll2[newnode] = -1;
+    
+    if(head_dll2 == -1) {
+        prev_dll2[newnode] = -1;
+        head_dll2 = newnode;
+    } else {
+        temp = head_dll2;
+        while(next_dll2[temp] != -1)
+            temp = next_dll2[temp];
+        next_dll2[temp] = newnode;
+        prev_dll2[newnode] = temp;
+    }
+    
+    printf("Value inserted at end\n");
+}
+
+void display_dll2() {
+    int temp;
+    
+    if(head_dll2 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Doubly Linked List elements: ");
+    temp = head_dll2;
+    while(temp != -1) {
+        printf("%d ", data_dll2[temp]);
+        temp = next_dll2[temp];
+    }
+    printf("\n");
+}
+
+void program14() {
+    int choice;
+    
+    init_dll2();
+    
+    while(1) {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert at End\n");
+        printf("2. Display List\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_end_dll(); break;
+            case 2: display_dll2(); break;
+            case 3: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert at End
+2. Display List
+3. Exit
+Enter your choice: 1
+Enter value to insert: 8
+Value inserted at end
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 6
+Value inserted at end
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 4
+Value inserted at end
+
+--- MENU ---
+Enter your choice: 2
+Doubly Linked List elements: 8 6 4
+
+--- MENU ---
+Enter your choice: 3
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Get new node from free list
+Step 2: Set data and next=-1 (will be last node)
+Step 3: If list empty, make new node as head
+Step 4: Set prev=-1 for first node
+Step 5: Otherwise, traverse to last node
+Step 6: While next[temp] != -1, move to next
+Step 7: Link last node's next to new node
+Step 8: Set new node's prev to last node
+Step 9: Time: O(n) due to traversal to end
+Step 10: Can be O(1) with tail pointer
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: How to optimize insertion at end in DLL?
+Problem:
+• Must traverse entire list: O(n)
+• Inefficient for large lists
+• Every insertion requires full traversal
+Solution - Maintain Tail Pointer:
+• Keep pointer to last node
+• Update on every insertion/deletion
+• Direct access to last node
+• Insertion becomes O(1)
+Implementation:
+```c
+int tail = -1;  // Global tail pointer
+// On insert at end:
+if(head == -1) {
+    head = tail = newnode;
+} else {
+    next[tail] = newnode;
+    prev[newnode] = tail;
+    tail = newnode;
+}
+```
+Trade-off:
+• Extra variable (tail)
+• Must maintain on all operations
+• Worth it for frequent end operations
+
+Q2: What operations are O(1) in Doubly Linked List?
+With Direct Access:
+• Insert at beginning: O(1)
+• Delete at beginning: O(1)
+• Insert before given node: O(1)
+• Delete given node: O(1)
+With Tail Pointer:
+• Insert at end: O(1)
+• Delete at end: O(1)
+Always O(n):
+• Search for value: O(n)
+• Access by index: O(n)
+• Insert at middle: O(n) to reach position
+Key Point:
+• O(1) means node pointer already known
+• If need to search first, it's O(n)
+
+Q3: Compare DLL with Singly Linked List complexities.
+Insert at Beginning:
+• SLL: O(1)
+• DLL: O(1)
+• Both same, DLL has extra prev update
+Insert at End:
+• SLL: O(n) without tail, O(1) with tail
+• DLL: O(n) without tail, O(1) with tail
+• Same complexity
+Delete Given Node:
+• SLL: O(n) - need predecessor
+• DLL: O(1) - use prev pointer
+• DLL advantage
+Delete at Beginning:
+• SLL: O(1)
+• DLL: O(1)
+• Both same
+Memory:
+• SLL: 1 pointer per node
+• DLL: 2 pointers per node
+• SLL uses less memory
+*/
+
+/*
+===============================================================================
+PROGRAM 15: DOUBLY LINKED LIST - INSERT AT MIDDLE
+===============================================================================
+Question: Write a C program to insert element at specified position in DLL.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int data_dll3[MAX];
+int prev_dll3[MAX];
+int next_dll3[MAX];
+int head_dll3 = -1;
+int freePos_dll3 = 0;
+
+void init_dll3() {
+    int i;
+    for(i = 0; i < MAX - 1; i++)
+        next_dll3[i] = i + 1;
+    next_dll3[MAX - 1] = -1;
+}
+
+void insert_middle_dll() {
+    int newnode, value, pos, i, temp;
+    
+    if(freePos_dll3 == -1) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    printf("Enter position (0-based index): ");
+    scanf("%d", &pos);
+    
+    printf("Enter value: ");
+    scanf("%d", &value);
+    
+    newnode = freePos_dll3;
+    freePos_dll3 = next_dll3[freePos_dll3];
+    data_dll3[newnode] = value;
+    
+    if(pos == 0) {
+        prev_dll3[newnode] = -1;
+        next_dll3[newnode] = head_dll3;
+        if(head_dll3 != -1)
+            prev_dll3[head_dll3] = newnode;
+        head_dll3 = newnode;
+    } else {
+        temp = head_dll3;
+        for(i = 0; i < pos - 1 && next_dll3[temp] != -1; i++)
+            temp = next_dll3[temp];
+        
+        next_dll3[newnode] = next_dll3[temp];
+        if(next_dll3[temp] != -1)
+            prev_dll3[next_dll3[temp]] = newnode;
+        next_dll3[temp] = newnode;
+        prev_dll3[newnode] = temp;
+    }
+    
+    printf("Value inserted at position %d\n", pos);
+}
+
+void display_dll3() {
+    int temp;
+    
+    if(head_dll3 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Doubly Linked List elements: ");
+    temp = head_dll3;
+    while(temp != -1) {
+        printf("%d ", data_dll3[temp]);
+        temp = next_dll3[temp];
+    }
+    printf("\n");
+}
+
+void program15() {
+    int choice;
+    
+    init_dll3();
+    
+    while(1) {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert at Middle\n");
+        printf("2. Display List\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_middle_dll(); break;
+            case 2: display_dll3(); break;
+            case 3: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert at Middle
+2. Display List
+3. Exit
+Enter your choice: 1
+Enter position (0-based index): 0
+Enter value: 11
+Value inserted at position 0
+
+--- MENU ---
+Enter your choice: 1
+Enter position (0-based index): 1
+Enter value: 22
+Value inserted at position 1
+
+--- MENU ---
+Enter your choice: 1
+Enter position (0-based index): 2
+Enter value: 33
+Value inserted at position 2
+
+--- MENU ---
+Enter your choice: 2
+Doubly Linked List elements: 11 22 33
+
+--- MENU ---
+Enter your choice: 3
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Accept position and value from user
+Step 2: Get new node from free list
+Step 3: If position is 0, insert at beginning
+Step 4: Otherwise, traverse to (position-1)th node
+Step 5: Update four pointers for insertion:
+   - newnode->next = temp->next
+   - temp->next->prev = newnode
+   - temp->next = newnode
+   - newnode->prev = temp
+Step 6: Maintain doubly linked structure
+Step 7: Both forward and backward links updated
+Step 8: Time: O(n) due to traversal
+Step 9: More complex than SLL (4 pointer updates)
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What are the steps to insert at middle position in DLL?
+Step-by-Step Algorithm:
+1. Traverse to position-1 (predecessor)
+2. Create new node with data
+3. Update new node pointers:
+   - new->next = pred->next (successor)
+   - new->prev = pred (predecessor)
+4. Update predecessor pointer:
+   - pred->next = new
+5. Update successor pointer (if exists):
+   - succ->prev = new
+6. Handle edge cases:
+   - Position 0: Insert at beginning
+   - Beyond list: Insert at end
+Pointer Updates:
+• Total 4 pointers to update
+• Must maintain bidirectional links
+• Order matters to avoid losing references
+
+Q2: Why is DLL insertion more complex than SLL?
+Singly Linked List:
+• Update 2 pointers
+• new->next = current->next
+• current->next = new
+• Simple, fewer operations
+Doubly Linked List:
+• Update 4 pointers
+• new->next, new->prev
+• predecessor->next, successor->prev
+• More complex, more operations
+Reason:
+• DLL maintains bidirectional links
+• Must update both directions
+• Ensures forward and backward traversal
+• Extra complexity for extra functionality
+Trade-off:
+• More complexity in insertion
+• But easier deletion (O(1) with node pointer)
+• Better for bidirectional operations
+
+Q3: What edge cases must be handled in DLL insertion?
+Empty List:
+• head == -1
+• New node becomes head
+• prev = -1, next = -1
+Insert at Beginning (pos=0):
+• Update head pointer
+• New node's prev = -1
+• Old head's prev = new node
+Insert at End:
+• Last node's next = -1
+• New node's next = -1
+• Update last->next
+Insert Beyond List Size:
+• Position > list length
+• Treat as insert at end
+• Or show error
+Single Node List:
+• Special case
+• Both prev and next = -1
+• Careful pointer handling
+*/
+
+/*
+===============================================================================
+PROGRAM 16: DOUBLY LINKED LIST - DELETE FROM BEGINNING
+===============================================================================
+Question: Write a C program to delete element from beginning of DLL.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int data_dll4[MAX];
+int prev_dll4[MAX];
+int next_dll4[MAX];
+int head_dll4 = -1;
+int freePos_dll4 = 0;
+
+void init_dll4() {
+    int i;
+    for(i = 0; i < MAX - 1; i++)
+        next_dll4[i] = i + 1;
+    next_dll4[MAX - 1] = -1;
+}
+
+void insert_begin_dll4() {
+    int newnode, value;
+    
+    if(freePos_dll4 == -1) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    printf("Enter value to insert: ");
+    scanf("%d", &value);
+    
+    newnode = freePos_dll4;
+    freePos_dll4 = next_dll4[freePos_dll4];
+    
+    data_dll4[newnode] = value;
+    prev_dll4[newnode] = -1;
+    next_dll4[newnode] = head_dll4;
+    
+    if(head_dll4 != -1)
+        prev_dll4[head_dll4] = newnode;
+    
+    head_dll4 = newnode;
+    printf("Inserted successfully\n");
+}
+
+void delete_begin_dll() {
+    int temp;
+    
+    if(head_dll4 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    temp = head_dll4;
+    head_dll4 = next_dll4[head_dll4];
+    
+    if(head_dll4 != -1)
+        prev_dll4[head_dll4] = -1;
+    
+    next_dll4[temp] = freePos_dll4;
+    freePos_dll4 = temp;
+    
+    printf("Deleted from beginning\n");
+}
+
+void display_dll4() {
+    int temp;
+    
+    if(head_dll4 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Doubly Linked List elements: ");
+    temp = head_dll4;
+    while(temp != -1) {
+        printf("%d ", data_dll4[temp]);
+        temp = next_dll4[temp];
+    }
+    printf("\n");
+}
+
+void program16() {
+    int choice;
+    
+    init_dll4();
+    
+    while(1) {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert at Beginning\n");
+        printf("2. Delete at Beginning\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_begin_dll4(); break;
+            case 2: delete_begin_dll(); break;
+            case 3: display_dll4(); break;
+            case 4: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert at Beginning
+2. Delete at Beginning
+3. Display
+4. Exit
+Enter your choice: 1
+Enter value to insert: 6
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 12
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 18
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 2
+Deleted from beginning
+
+--- MENU ---
+Enter your choice: 3
+Doubly Linked List elements: 12 6
+
+--- MENU ---
+Enter your choice: 4
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is empty (head == -1)
+Step 2: Store current head in temp variable
+Step 3: Move head to next node (head = next[head])
+Step 4: Update new head's prev pointer to -1
+Step 5: Return deleted node to free list
+Step 6: next[temp] = freePos; freePos = temp
+Step 7: Time complexity: O(1) - constant time
+Step 8: No traversal needed - direct access via head
+Step 9: More efficient than array deletion
+Step 10: Memory reclaimed for reuse
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: Why is deletion at beginning O(1) in DLL?
+Direct Access:
+• Head pointer gives direct access
+• No traversal required
+• Just pointer manipulation
+Operations:
+• Store old head: temp = head
+• Move head: head = head->next
+• Update prev: head->prev = -1
+• Free old head
+• All O(1) operations
+Comparison:
+• Array: O(n) - must shift elements
+• DLL: O(1) - just update pointers
+• SLL: O(1) - also pointer update
+Advantage:
+• Efficient for queue operations
+• FIFO implementation
+• No overhead
+
+Q2: What is memory management in array-based DLL?
+Free List Concept:
+• Linked list of available nodes
+• Initially all nodes in free list
+• Maintained using next[] array
+Allocation:
+• Take node from front of free list
+• newnode = freePos
+• freePos = next[freePos]
+• O(1) operation
+Deallocation:
+• Return node to free list
+• next[temp] = freePos
+• freePos = temp
+• O(1) operation
+Advantages:
+• No malloc/free overhead
+• No memory fragmentation
+• Fixed memory pool
+• Predictable allocation
+Disadvantages:
+• Fixed maximum nodes
+• Can't grow beyond MAX
+• May waste space
+
+Q3: Compare deletion: Array vs SLL vs DLL at beginning.
+Array Deletion at Beginning:
+• Time: O(n)
+• Must shift all elements left
+• Costly for large arrays
+• In-place operation
+Singly Linked List:
+• Time: O(1)
+• Update head pointer
+• Free old head node
+• Efficient
+Doubly Linked List:
+• Time: O(1)
+• Update head pointer
+• Update new head's prev
+• Free old head
+• Same as SLL
+Key Insight:
+• Linked structures excel at beginning operations
+• Arrays better for end operations
+• Choose based on access pattern
+*/
+
+// Continue in final artifact
