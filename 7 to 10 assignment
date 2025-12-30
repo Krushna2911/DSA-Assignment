@@ -1,0 +1,645 @@
+/*
+===============================================================================
+PROGRAM 7: INSERT AT BEGINNING (LINEAR LIST)
+===============================================================================
+Question: Write a C program to insert element at beginning of array-based list.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+int list[MAX];
+int n = 0;
+
+void insert_begin() {
+    int value, i;
+    if(n == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    printf("Enter value: ");
+    scanf("%d", &value);
+    
+    // Shift all elements to right
+    for(i = n; i > 0; i--)
+        list[i] = list[i-1];
+    
+    list[0] = value;
+    n++;
+    printf("Inserted at beginning\n");
+}
+
+void display() {
+    int i;
+    if(n == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    printf("List: ");
+    for(i = 0; i < n; i++)
+        printf("%d ", list[i]);
+    printf("\n");
+}
+
+void program7() {
+    int choice;
+    while(1) {
+        printf("\n1. Insert at Beginning\n2. Display\n3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_begin(); break;
+            case 2: display(); break;
+            case 3: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+1. Insert at Beginning
+2. Display
+3. Exit
+Enter choice: 1
+Enter value: 22
+Inserted at beginning
+
+Enter choice: 1
+Enter value: 33
+Inserted at beginning
+
+Enter choice: 2
+List: 33 22
+
+Enter choice: 3
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is full (n == MAX)
+Step 2: If full, display error and return
+Step 3: Accept new value from user
+Step 4: Shift all existing elements one position right
+Step 5: Start from last element (index n-1) and move to first
+Step 6: list[i] = list[i-1] for all positions
+Step 7: Insert new value at index 0
+Step 8: Increment size counter n
+Step 9: Time complexity: O(n) due to shifting
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: Why is insertion at beginning costly in array?
+Shifting Required:
+• All existing elements must move one position right
+• If n elements exist, all n must be shifted
+• Time complexity: O(n)
+Process:
+• Element at index 0 moves to index 1
+• Element at index 1 moves to index 2
+• Continue till last element
+• Then insert new element at index 0
+Space:
+• In-place operation: O(1) space
+Comparison:
+• Array: O(n) for insertion at beginning
+• Linked List: O(1) for insertion at beginning
+
+Q2: What is difference between Array and Linked List?
+Array:
+• Contiguous memory allocation
+• Fixed size (static)
+• Random access: O(1)
+• Insertion/Deletion: O(n)
+• No extra memory for pointers
+• Better cache locality
+Linked List:
+• Non-contiguous memory
+• Dynamic size
+• Sequential access: O(n)
+• Insertion/Deletion at beginning: O(1)
+• Extra memory for pointers
+• No wasted space
+
+Q3: How to optimize array insertions?
+Strategy 1 - Insert at End:
+• No shifting required
+• Time: O(1)
+• Best for sequential data
+Strategy 2 - Use Dynamic Arrays:
+• ArrayList in Java, vector in C++
+• Automatic resizing
+• Amortized O(1) insertion
+Strategy 3 - Use Linked List:
+• For frequent insertions at beginning
+• O(1) insertion time
+Strategy 4 - Maintain Reverse Order:
+• Store in reverse, so end becomes beginning
+• Depends on access pattern
+*/
+
+/*
+===============================================================================
+PROGRAM 8: INSERT AT END (LINEAR LIST)
+===============================================================================
+Question: Write a C program to insert element at end of array-based list.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+int list_end[MAX];
+int n_end = 0;
+
+void insert_end() {
+    int value;
+    if(n_end == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    printf("Enter value: ");
+    scanf("%d", &value);
+    
+    list_end[n_end] = value;
+    n_end++;
+    printf("Inserted at End\n");
+}
+
+void display_end() {
+    int i;
+    if(n_end == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    printf("List: ");
+    for(i = 0; i < n_end; i++)
+        printf("%d ", list_end[i]);
+    printf("\n");
+}
+
+void program8() {
+    int choice;
+    while(1) {
+        printf("\n1. Insert at End\n2. Display\n3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_end(); break;
+            case 2: display_end(); break;
+            case 3: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+1. Insert at End
+2. Display
+3. Exit
+Enter choice: 1
+Enter value: 14
+Inserted at End
+
+Enter choice: 1
+Enter value: 17
+Inserted at End
+
+Enter choice: 1
+Enter value: 21
+Inserted at End
+
+Enter choice: 2
+List: 14 17 21
+
+Enter choice: 3
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is full (n == MAX)
+Step 2: If full, display error message and return
+Step 3: Accept new value from user
+Step 4: Directly insert at index n (next empty position)
+Step 5: No shifting required - most efficient
+Step 6: Increment size counter n
+Step 7: Time complexity: O(1) - constant time
+Step 8: This is preferred insertion method for arrays
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: Why is insertion at end most efficient in arrays?
+No Shifting:
+• Elements already in place don't move
+• Direct placement at next available index
+• Only one assignment operation
+Time Complexity:
+• O(1) constant time
+• Independent of array size
+• Best case for array insertion
+Space Complexity:
+• O(1) - no extra space needed
+• In-place operation
+Comparison:
+• Insert at beginning: O(n)
+• Insert at end: O(1)
+• Insert at middle: O(n)
+
+Q2: What happens when array becomes full?
+Static Array (Fixed Size):
+• Cannot insert more elements
+• Overflow condition occurs
+• Must check before insertion
+• Error handling required
+Dynamic Array (Resizable):
+• Automatically resizes when full
+• Creates new larger array (usually 2x)
+• Copies all elements to new array
+• Deallocates old array
+• Amortized O(1) insertion time
+C Implementation:
+• Use realloc() for dynamic resizing
+• Manual memory management required
+
+Q3: Compare all insertion operations in array.
+Insert at Beginning:
+• Time: O(n) - shift all elements right
+• Worst case scenario
+• Example: [1,2,3] → insert 0 → [0,1,2,3]
+Insert at End:
+• Time: O(1) - no shifting
+• Best case scenario  
+• Example: [1,2,3] → insert 4 → [1,2,3,4]
+Insert at Middle (position k):
+• Time: O(n-k) - shift elements from k onwards
+• Average case: O(n/2) = O(n)
+• Example: [1,2,4] → insert 3 at pos 2 → [1,2,3,4]
+General Rule:
+• Closer to end = faster insertion
+• Closer to beginning = slower insertion
+*/
+
+/*
+===============================================================================
+PROGRAM 9: INSERT AT BEGINNING AND MIDDLE
+===============================================================================
+Question: Write a C program to insert elements at beginning and at any 
+          specified position (middle).
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+int list_mid[MAX];
+int n_mid = 0;
+
+void insert_begin_mid() {
+    int value, i;
+    if(n_mid == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    printf("Enter value: ");
+    scanf("%d", &value);
+    
+    for(i = n_mid; i > 0; i--)
+        list_mid[i] = list_mid[i - 1];
+    
+    list_mid[0] = value;
+    n_mid++;
+    printf("Inserted at Beginning\n");
+}
+
+void insert_middle() {
+    int value, pos, i;
+    
+    if(n_mid == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    if(n_mid == 0) {
+        printf("List is empty. Insert at Beginning first.\n");
+        return;
+    }
+    
+    printf("Enter position (1 to %d): ", n_mid);
+    scanf("%d", &pos);
+    
+    if(pos < 1 || pos > n_mid) {
+        printf("Invalid Position\n");
+        return;
+    }
+    
+    printf("Enter value: ");
+    scanf("%d", &value);
+    
+    // Shift elements from position onwards
+    for(i = n_mid; i >= pos; i--)
+        list_mid[i] = list_mid[i - 1];
+    
+    list_mid[pos - 1] = value;
+    n_mid++;
+    printf("Inserted at Middle\n");
+}
+
+void display_mid() {
+    int i;
+    if(n_mid == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    printf("List elements: ");
+    for(i = 0; i < n_mid; i++)
+        printf("%d ", list_mid[i]);
+    printf("\n");
+}
+
+void program9() {
+    int choice;
+    
+    do {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert at Beginning\n");
+        printf("2. Insert at Middle\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_begin_mid(); break;
+            case 2: insert_middle(); break;
+            case 3: display_mid(); break;
+            case 4: printf("Program Exited\n"); break;
+            default: printf("Invalid choice\n");
+        }
+    } while(choice != 4);
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert at Beginning
+2. Insert at Middle
+3. Display
+4. Exit
+Enter choice: 1
+Enter value: 10
+Inserted at Beginning
+
+--- MENU ---
+Enter choice: 1
+Enter value: 20
+Inserted at Beginning
+
+--- MENU ---
+Enter choice: 2
+Enter position (1 to 2): 2
+Enter value: 15
+Inserted at Middle
+
+--- MENU ---
+Enter choice: 3
+List elements: 20 15 10
+
+--- MENU ---
+Enter choice: 4
+Program Exited
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is full before insertion
+Step 2: For middle insertion, accept position from user
+Step 3: Validate position is within range [1, n]
+Step 4: Shift elements from specified position to end
+Step 5: Move each element one position right
+Step 6: Insert new value at specified position
+Step 7: Increment size counter
+Step 8: Number of shifts depends on insertion position
+Step 9: Time complexity: O(n) worst case
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: How does insertion at arbitrary position work?
+Algorithm:
+1. Check if list is full
+2. Accept position (1-based for user friendliness)
+3. Validate: 1 <= position <= n
+4. Shift elements from position to end
+5. Insert new element at position
+6. Increment size
+Position Validation:
+• Must be between 1 and n (1-based indexing)
+• Position 1 = first element (index 0)
+• Position n = after last element
+Array Access:
+• Convert 1-based to 0-based: array[pos-1]
+• User thinks in positions, array uses indices
+
+Q2: What is complexity analysis for middle insertion?
+Best Case:
+• Insert at end: O(1)
+• No elements to shift
+• Just place at index n
+Worst Case:
+• Insert at beginning: O(n)
+• Shift all n elements
+• Maximum shifting required
+Average Case:
+• Insert at middle position n/2
+• Shift approximately n/2 elements
+• O(n/2) = O(n)
+General Formula:
+• Insert at position k: O(n-k) shifts
+• k closer to end → fewer shifts
+• k closer to beginning → more shifts
+
+Q3: How to handle edge cases in insertion?
+Empty List:
+• Can only insert at position 0 or 1
+• Handle separately or allow as special case
+Full List:
+• Check n == MAX before insertion
+• Display "List Full" message
+• Prevent overflow
+Invalid Position:
+• Position < 1 or position > n
+• Display error message
+• Don't modify list
+Single Element:
+• Position can be 1 (before) or 2 (after)
+• Handle carefully in validation
+Negative Position:
+• Should be rejected
+• Use unsigned int or validate
+*/
+
+/*
+===============================================================================
+PROGRAM 10: DELETE FROM BEGINNING
+===============================================================================
+Question: Write a C program to delete element from beginning of list.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+int list_del[MAX];
+int n_del = 0;
+
+void insert_del() {
+    if(n_del == MAX) {
+        printf("List is Full\n");
+        return;
+    }
+    printf("Enter value: ");
+    scanf("%d", &list_del[n_del]);
+    n_del++;
+}
+
+void delete_begin() {
+    int i;
+    if(n_del == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    
+    // Shift all elements one position left
+    for(i = 0; i < n_del - 1; i++)
+        list_del[i] = list_del[i + 1];
+    
+    n_del--;
+    printf("Deleted from Beginning\n");
+}
+
+void display_del() {
+    int i;
+    if(n_del == 0) {
+        printf("List is Empty\n");
+        return;
+    }
+    printf("List: ");
+    for(i = 0; i < n_del; i++)
+        printf("%d ", list_del[i]);
+    printf("\n");
+}
+
+void program10() {
+    int choice;
+    
+    while(1) {
+        printf("\n1. Insert\n2. Delete from Beginning\n");
+        printf("3. Display\n4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_del(); break;
+            case 2: delete_begin(); break;
+            case 3: display_del(); break;
+            case 4: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+1. Insert
+2. Delete from Beginning
+3. Display
+4. Exit
+Enter choice: 1
+Enter value: 10
+
+Enter choice: 1
+Enter value: 20
+
+Enter choice: 1
+Enter value: 30
+
+Enter choice: 2
+Deleted from Beginning
+
+Enter choice: 3
+List: 20 30
+
+Enter choice: 4
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is empty (n == 0)
+Step 2: If empty, display error and return
+Step 3: Shift all elements one position to left
+Step 4: Element at index 1 moves to index 0
+Step 5: Element at index 2 moves to index 1, etc.
+Step 6: Loop from i=0 to i=n-2
+Step 7: list[i] = list[i+1]
+Step 8: Decrement size counter n
+Step 9: First element effectively deleted
+Step 10: Time complexity: O(n) due to shifting
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: Why is deletion from beginning costly in arrays?
+Shifting Required:
+• All remaining elements shift left
+• n-1 elements must be moved
+• Time complexity: O(n)
+Process:
+• Element at index 1 → index 0
+• Element at index 2 → index 1
+• Continue till last element
+Memory:
+• In-place operation
+• No extra space needed
+• O(1) space complexity
+Alternative:
+• Linked List: O(1) deletion at beginning
+• Better for frequent deletions
+
+Q2: What is difference between logical and physical deletion?
+Logical Deletion:
+• Mark element as deleted (flag)
+• Don't actually remove from memory
+• Example: deleted[i] = true
+• Faster: O(1) operation
+• Skip during traversal
+• Periodic cleanup needed
+Physical Deletion:
+• Actually remove element from array
+• Shift remaining elements
+• Reclaim space immediately
+• Slower: O(n) operation
+• No wasted space
+When to use:
+• Logical: Frequent deletions, read-heavy
+• Physical: Space-critical, write-heavy
+
+Q3: How do different deletion operations compare?
+Delete from Beginning:
+• Shift all n-1 elements left
+• Time: O(n)
+• Worst case for arrays
+Delete from End:
+• Just decrement size: n--
+• Time: O(1)
+• Best case for arrays
+• Most efficient
+Delete from Middle (position k):
+• Shift elements from k+1 to end
+• Time: O(n-k)
+• Average: O(n/2) = O(n)
+Delete by Value:
+• Search: O(n)
+• Shift: O(n)
+• Total: O(n)
+Summary: End deletion best for arrays
+*/
+
+// Continue in next artifact...
