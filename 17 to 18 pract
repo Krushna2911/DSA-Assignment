@@ -1,0 +1,721 @@
+/*
+===============================================================================
+PROGRAM 17: DOUBLY LINKED LIST - DELETE FROM END
+===============================================================================
+Question: Write a C program to delete element from end of doubly linked list.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int data_dll5[MAX];
+int prev_dll5[MAX];
+int next_dll5[MAX];
+int head_dll5 = -1;
+int freePos_dll5 = 0;
+
+void init_dll5() {
+    int i;
+    for(i = 0; i < MAX - 1; i++)
+        next_dll5[i] = i + 1;
+    next_dll5[MAX - 1] = -1;
+}
+
+void insert_end_dll5() {
+    int newnode, value, temp;
+    
+    if(freePos_dll5 == -1) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    printf("Enter value to insert: ");
+    scanf("%d", &value);
+    
+    newnode = freePos_dll5;
+    freePos_dll5 = next_dll5[freePos_dll5];
+    
+    data_dll5[newnode] = value;
+    next_dll5[newnode] = -1;
+    
+    if(head_dll5 == -1) {
+        prev_dll5[newnode] = -1;
+        head_dll5 = newnode;
+    } else {
+        temp = head_dll5;
+        while(next_dll5[temp] != -1)
+            temp = next_dll5[temp];
+        next_dll5[temp] = newnode;
+        prev_dll5[newnode] = temp;
+    }
+    
+    printf("Inserted successfully\n");
+}
+
+void delete_end_dll() {
+    int temp;
+    
+    if(head_dll5 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    temp = head_dll5;
+    while(next_dll5[temp] != -1)
+        temp = next_dll5[temp];
+    
+    if(prev_dll5[temp] != -1)
+        next_dll5[prev_dll5[temp]] = -1;
+    else
+        head_dll5 = -1;
+    
+    next_dll5[temp] = freePos_dll5;
+    freePos_dll5 = temp;
+    
+    printf("Deleted from end\n");
+}
+
+void display_dll5() {
+    int temp;
+    
+    if(head_dll5 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Doubly Linked List elements: ");
+    temp = head_dll5;
+    while(temp != -1) {
+        printf("%d ", data_dll5[temp]);
+        temp = next_dll5[temp];
+    }
+    printf("\n");
+}
+
+void program17() {
+    int choice;
+    
+    init_dll5();
+    
+    while(1) {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert at End\n");
+        printf("2. Delete at End\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_end_dll5(); break;
+            case 2: delete_end_dll(); break;
+            case 3: display_dll5(); break;
+            case 4: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert at End
+2. Delete at End
+3. Display
+4. Exit
+Enter your choice: 1
+Enter value to insert: 4
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 8
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 1
+Enter value to insert: 12
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 2
+Deleted from end
+
+--- MENU ---
+Enter your choice: 3
+Doubly Linked List elements: 4 8
+
+--- MENU ---
+Enter your choice: 4
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is empty
+Step 2: Traverse to last node (where next == -1)
+Step 3: If node has predecessor, update its next to -1
+Step 4: If no predecessor, list becomes empty (head = -1)
+Step 5: Return deleted node to free list
+Step 6: Time: O(n) due to traversal to end
+Step 7: Can be optimized to O(1) with tail pointer
+Step 8: Use prev pointer to access predecessor directly
+Step 9: No need to traverse for predecessor (DLL advantage)
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: How to optimize deletion at end in DLL?
+Problem:
+• Must traverse entire list: O(n)
+• Inefficient for repeated end deletions
+• No direct access to last node
+Solution - Maintain Tail Pointer:
+• Keep global pointer to last node
+• Update on every operation
+• Direct access: O(1) deletion
+Implementation:
+```c
+if(tail == -1) return; // Empty
+temp = tail;
+tail = prev[tail];
+if(tail != -1)
+    next[tail] = -1;
+else
+    head = -1;
+// Free temp node
+```
+Result:
+• O(n) → O(1)
+• Worth maintaining for frequent operations
+
+Q2: What is the advantage of prev pointer in end deletion?
+Without prev pointer (SLL):
+• Must traverse to find predecessor
+• Need predecessor to update its next
+• Time: O(n) traversal
+• Code: while(next[temp]->next != -1)
+With prev pointer (DLL):
+• Direct access to predecessor
+• prev[lastNode] gives predecessor
+• No traversal for predecessor
+• More efficient deletion logic
+Example:
+• SLL: Traverse all nodes to find second-last
+• DLL: Use last->prev to get second-last
+• DLL saves traversal step
+Overall Complexity:
+• Both still O(n) to reach end
+• But DLL simpler logic
+
+Q3: Compare all deletion operations in DLL.
+Delete from Beginning:
+• Time: O(1)
+• Direct head access
+• Update head and prev pointers
+• Most efficient
+Delete from End:
+• Time: O(n) without tail
+• Time: O(1) with tail pointer
+• Must reach last node
+• Update predecessor's next
+Delete from Middle:
+• Time: O(n) to reach position
+• O(1) to delete with node pointer
+• Use prev to access predecessor
+• Use next to access successor
+• 4 pointer updates
+Delete by Value:
+• Time: O(n) search + O(1) delete
+• Search for node
+• Delete using pointers
+• Total: O(n)
+*/
+
+/*
+===============================================================================
+PROGRAM 18: DOUBLY LINKED LIST - DELETE FROM MIDDLE
+===============================================================================
+Question: Write a C program to delete element from specified position in DLL.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int data_dll6[MAX];
+int prev_dll6[MAX];
+int next_dll6[MAX];
+int head_dll6 = -1;
+int freePos_dll6 = 0;
+
+void init_dll6() {
+    int i;
+    for(i = 0; i < MAX - 1; i++)
+        next_dll6[i] = i + 1;
+    next_dll6[MAX - 1] = -1;
+}
+
+void insert_end_dll6() {
+    int newnode, value, temp;
+    
+    if(freePos_dll6 == -1) {
+        printf("List is Full\n");
+        return;
+    }
+    
+    printf("Enter value to insert: ");
+    scanf("%d", &value);
+    
+    newnode = freePos_dll6;
+    freePos_dll6 = next_dll6[freePos_dll6];
+    
+    data_dll6[newnode] = value;
+    next_dll6[newnode] = -1;
+    
+    if(head_dll6 == -1) {
+        prev_dll6[newnode] = -1;
+        head_dll6 = newnode;
+    } else {
+        temp = head_dll6;
+        while(next_dll6[temp] != -1)
+            temp = next_dll6[temp];
+        next_dll6[temp] = newnode;
+        prev_dll6[newnode] = temp;
+    }
+    
+    printf("Inserted successfully\n");
+}
+
+void delete_middle_dll() {
+    int pos, temp, i;
+    
+    if(head_dll6 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Enter position to delete (0-based): ");
+    scanf("%d", &pos);
+    
+    temp = head_dll6;
+    for(i = 0; i < pos && temp != -1; i++)
+        temp = next_dll6[temp];
+    
+    if(temp == -1) {
+        printf("Invalid position\n");
+        return;
+    }
+    
+    // Update predecessor's next
+    if(prev_dll6[temp] != -1)
+        next_dll6[prev_dll6[temp]] = next_dll6[temp];
+    else
+        head_dll6 = next_dll6[temp];
+    
+    // Update successor's prev
+    if(next_dll6[temp] != -1)
+        prev_dll6[next_dll6[temp]] = prev_dll6[temp];
+    
+    // Free node
+    next_dll6[temp] = freePos_dll6;
+    freePos_dll6 = temp;
+    
+    printf("Deleted from middle\n");
+}
+
+void display_dll6() {
+    int temp;
+    
+    if(head_dll6 == -1) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    printf("Doubly Linked List elements: ");
+    temp = head_dll6;
+    while(temp != -1) {
+        printf("%d ", data_dll6[temp]);
+        temp = next_dll6[temp];
+    }
+    printf("\n");
+}
+
+void program18() {
+    int choice;
+    
+    init_dll6();
+    
+    while(1) {
+        printf("\n--- MENU ---\n");
+        printf("1. Insert\n");
+        printf("2. Delete at Middle\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: insert_end_dll6(); break;
+            case 2: delete_middle_dll(); break;
+            case 3: display_dll6(); break;
+            case 4: return;
+            default: printf("Invalid choice\n");
+        }
+    }
+}
+
+/* OUTPUT:
+--- MENU ---
+1. Insert
+2. Delete at Middle
+3. Display
+4. Exit
+Enter your choice: 1
+Enter value to insert: 9
+Inserted successfully
+
+Enter your choice: 1
+Enter value to insert: 18
+Inserted successfully
+
+Enter your choice: 1
+Enter value to insert: 27
+Inserted successfully
+
+--- MENU ---
+Enter your choice: 2
+Enter position to delete (0-based): 1
+Deleted from middle
+
+--- MENU ---
+Enter your choice: 3
+Doubly Linked List elements: 9 27
+
+--- MENU ---
+Enter your choice: 4
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Check if list is empty
+Step 2: Accept position to delete (0-based indexing)
+Step 3: Traverse to node at given position
+Step 4: Validate position exists in list
+Step 5: Update predecessor's next to skip current node
+Step 6: Update successor's prev to skip current node
+Step 7: Handle edge cases (first node, last node)
+Step 8: Return deleted node to free list
+Step 9: Time: O(n) for traversal + O(1) for deletion
+Step 10: Total 2 pointer updates (vs 1 in SLL)
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What pointer updates are needed for middle deletion in DLL?
+Pointer Updates (2 main):
+1. Predecessor's next pointer:
+   - Skip current node
+   - pred->next = current->next
+2. Successor's prev pointer:
+   - Skip current node
+   - succ->prev = current->prev
+Edge Cases:
+• First node: Update head
+• Last node: No successor update
+• Single node: head = -1
+Comparison with SLL:
+• SLL: 1 pointer update (pred->next)
+• DLL: 2 pointer updates (pred->next, succ->prev)
+• DLL more complex but enables bidirectional access
+
+Q2: How to delete by value in DLL?
+Algorithm:
+1. Search for value in list
+2. Traverse from head
+3. Compare data at each node
+4. When found, delete using pointers
+5. If not found, show error
+Code Structure:
+```c
+temp = head;
+while(temp != -1) {
+    if(data[temp] == value) {
+        // Found! Delete this node
+        if(prev[temp] != -1)
+            next[prev[temp]] = next[temp];
+        else
+            head = next[temp];
+        
+        if(next[temp] != -1)
+            prev[next[temp]] = prev[temp];
+        
+        // Free node
+        return;
+    }
+    temp = next[temp];
+}
+printf("Value not found\n");
+```
+Complexity:
+• Search: O(n)
+• Delete: O(1)
+• Total: O(n)
+
+Q3: What are complete steps for DLL node deletion?
+Step 1 - Locate Node:
+• Traverse to position
+• Or search by value
+• Validate node exists
+Step 2 - Update Predecessor:
+• If predecessor exists:
+  pred->next = current->next
+• Else (deleting first):
+  head = current->next
+Step 3 - Update Successor:
+• If successor exists:
+  succ->prev = current->prev
+• Else (deleting last):
+  No update needed
+Step 4 - Free Memory:
+• Dynamic: free(current)
+• Array-based: return to free list
+Step 5 - Handle Edge Cases:
+• Empty list
+• Single node
+• Invalid position
+Error Handling:
+• Check empty before delete
+• Validate position/value
+• Display appropriate messages
+*/
+
+/*
+===============================================================================
+COMPREHENSIVE SUMMARY AND COMPARISON TABLES
+===============================================================================
+*/
+
+/* 
+TIME COMPLEXITY COMPARISON TABLE
+================================
+
+OPERATION              | ARRAY  | SINGLY LL | DOUBLY LL | STACK | QUEUE
+-----------------------|--------|-----------|-----------|-------|-------
+Access by index        | O(1)   | O(n)      | O(n)      | O(1)* | O(1)^
+Search by value        | O(n)   | O(n)      | O(n)      | O(n)  | O(n)
+Insert at beginning    | O(n)   | O(1)      | O(1)      | N/A   | N/A
+Insert at end          | O(1)   | O(n)#     | O(n)#     | N/A   | N/A
+Insert at middle       | O(n)   | O(n)      | O(n)      | N/A   | N/A
+Delete at beginning    | O(n)   | O(1)      | O(1)      | N/A   | N/A
+Delete at end          | O(1)   | O(n)      | O(n)#     | N/A   | N/A
+Delete at middle       | O(n)   | O(n)      | O(n)      | N/A   | N/A
+Push/Enqueue           | N/A    | N/A       | N/A       | O(1)  | O(1)
+Pop/Dequeue            | N/A    | N/A       | N/A       | O(1)  | O(1)
+
+* Top element only
+^ Front element only
+# O(1) with tail pointer
+
+SPACE COMPLEXITY:
+- Array: O(n)
+- Singly Linked List: O(n) + n pointers
+- Doubly Linked List: O(n) + 2n pointers
+- Stack/Queue: O(n)
+*/
+
+/* 
+ADVANTAGES AND DISADVANTAGES
+=============================
+
+ARRAY:
+Advantages:
+• Fast random access: O(1)
+• Cache friendly (contiguous memory)
+• Simple implementation
+• Less memory overhead
+• Good for fixed-size data
+Disadvantages:
+• Fixed size (static)
+• Costly insertion/deletion: O(n)
+• Memory waste if not fully used
+• Cannot grow dynamically
+
+SINGLY LINKED LIST:
+Advantages:
+• Dynamic size
+• Efficient insertion at beginning: O(1)
+• No memory waste
+• Easy to implement
+Disadvantages:
+• No random access: O(n)
+• Extra memory for pointers
+• Cache unfriendly
+• Cannot traverse backward
+
+DOUBLY LINKED LIST:
+Advantages:
+• Bidirectional traversal
+• Efficient deletion with node pointer: O(1)
+• Easy to implement deque
+• Can delete node without predecessor
+Disadvantages:
+• More memory (2 pointers per node)
+• More complex operations
+• Slower than SLL due to extra updates
+
+STACK:
+Advantages:
+• Simple LIFO structure
+• O(1) push and pop
+• Used in recursion
+• Function call management
+Disadvantages:
+• Limited access (top only)
+• Can overflow
+• Not suitable for random access
+
+QUEUE:
+Advantages:
+• Simple FIFO structure
+• O(1) enqueue and dequeue
+• Fair ordering
+• Used in scheduling
+Disadvantages:
+• Limited access (front/rear only)
+• Simple queue wastes space
+• Need circular queue for efficiency
+*/
+
+/* 
+WHEN TO USE WHICH DATA STRUCTURE
+=================================
+
+Use ARRAY when:
+• Size is known and fixed
+• Frequent random access needed
+• Cache performance important
+• Simple sorting/searching
+• Memory overhead is concern
+
+Use SINGLY LINKED LIST when:
+• Size unknown or varies
+• Frequent insertions at beginning
+• No random access needed
+• Stack implementation
+• Memory available is limited
+
+Use DOUBLY LINKED LIST when:
+• Bidirectional traversal needed
+• Frequent deletions with node pointer
+• LRU Cache implementation
+• Browser history (back/forward)
+• Deque implementation
+
+Use STACK when:
+• LIFO order required
+• Function recursion
+• Expression evaluation
+• Undo operations
+• DFS algorithm
+
+Use QUEUE when:
+• FIFO order required
+• BFS algorithm
+• Printer job scheduling
+• CPU process scheduling
+• Buffer management
+
+Use CIRCULAR QUEUE when:
+• Fixed size queue
+• Want to reuse front space
+• Efficient memory utilization
+• Bounded buffer problems
+*/
+
+/* 
+KEY CONCEPTS FOR ORAL EXAM
+===========================
+
+1. COMPLEXITY ANALYSIS:
+   - Always specify best, average, worst case
+   - Consider both time and space
+   - Explain why complexity is what it is
+
+2. TRADE-OFFS:
+   - Time vs Space
+   - Simplicity vs Efficiency
+   - Static vs Dynamic allocation
+
+3. APPLICATIONS:
+   - Real-world examples for each DS
+   - When to use which structure
+   - Practical scenarios
+
+4. OPERATIONS:
+   - Insertion, Deletion, Search
+   - Traversal, Update
+   - Special operations (push, pop, enqueue, dequeue)
+
+5. MEMORY MANAGEMENT:
+   - Static vs Dynamic allocation
+   - Free list concept
+   - Memory leaks and prevention
+
+6. IMPLEMENTATION:
+   - Array-based vs Pointer-based
+   - Advantages of each approach
+   - When to use which
+
+7. EDGE CASES:
+   - Empty structure
+   - Full structure
+   - Single element
+   - Invalid operations
+
+8. OPTIMIZATION:
+   - Tail pointer for linked lists
+   - Circular queue for efficient space
+   - Dynamic arrays for automatic resizing
+*/
+
+/*
+FINAL IMPORTANT POINTS
+======================
+
+For Arrays:
+• 0-based indexing in C
+• Fixed size determined at compile time
+• Contiguous memory allocation
+• Fast access, slow insertion/deletion
+
+For Linked Lists:
+• Dynamic memory allocation
+• Non-contiguous storage
+• Slow access, fast insertion/deletion at ends
+• Extra memory for pointers
+
+For Stack:
+• LIFO: Last In First Out
+• Operations: Push, Pop, Peek
+• Applications: Recursion, Expression evaluation
+• Can be implemented using array or linked list
+
+For Queue:
+• FIFO: First In First Out
+• Operations: Enqueue, Dequeue
+• Circular queue solves space issue
+• Applications: Scheduling, BFS
+
+For Doubly Linked List:
+• Two pointers per node
+• Bidirectional traversal
+• Easier deletion
+• More memory overhead
+
+Remember:
+• Always check for overflow/underflow
+• Handle edge cases properly
+• Validate input
+• Free memory when done (if dynamic)
+• Choose right DS for right problem
+*/
