@@ -1,0 +1,577 @@
+/*
+===============================================================================
+PROGRAM 1: DISPLAY ARRAY ELEMENTS
+===============================================================================
+Question: Write a C program to initialize an array with 5 elements and 
+          display them.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void program1() {
+    int a[5] = {15, 20, 25, 30, 35};
+    int i;
+    
+    printf("Array elements are:\n");
+    for(i = 0; i < 5; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
+/* OUTPUT:
+Array elements are:
+15 20 25 30 35
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Declare integer array 'a' with 5 elements
+Step 2: Initialize array with values {15, 20, 25, 30, 35}
+Step 3: Print header message "Array elements are:"
+Step 4: Use for loop to iterate from index 0 to 4
+Step 5: Print each array element followed by a space
+Step 6: Elements stored in contiguous memory locations
+Step 7: Array indexing starts from 0 in C
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What is an array in C?
+• Collection of elements of same data type
+• Stored in contiguous memory locations
+• Fixed size determined at declaration time
+• Access elements using index (0-based)
+• Provides random access in O(1) time
+• Declaration: datatype arrayname[size];
+
+Q2: How is array stored in memory?
+• Elements stored in consecutive memory addresses
+• If a[0] at address 1000, a[1] at 1004 (for int)
+• Address calculation: base_address + (index × size_of_datatype)
+• int takes 4 bytes, so each element 4 bytes apart
+• Efficient cache utilization due to locality
+• Random access possible due to contiguous storage
+
+Q3: What are advantages and disadvantages of arrays?
+Advantages:
+• Fast random access: O(1) time complexity
+• Simple and easy to use
+• Cache friendly due to contiguous storage
+• Better for iteration and traversal
+Disadvantages:
+• Fixed size, cannot grow dynamically
+• Insertion/deletion costly: O(n) time
+• Memory waste if array not fully utilized
+• Requires contiguous memory block
+*/
+
+/*
+===============================================================================
+PROGRAM 2: REVERSE ARRAY
+===============================================================================
+Question: Write a C program to accept array elements from user and display 
+          them in reverse order.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void program2() {
+    int a[50], n, i;
+    
+    printf("Enter Size of your Array: ");
+    scanf("%d", &n);
+    
+    printf("Enter array elements:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+    
+    printf("Array in reverse order:\n");
+    for(i = n - 1; i >= 0; i--)
+        printf("%d ", a[i]);
+    printf("\n");
+}
+
+/* OUTPUT:
+Enter Size of your Array: 10
+Enter array elements:
+11 23 31 65 12 123 11 12 13 123
+Array in reverse order:
+123 13 12 11 123 12 65 31 23 11
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Declare array of maximum size 50
+Step 2: Accept actual size 'n' from user
+Step 3: Use loop to read n elements from user
+Step 4: Store each element in array sequentially
+Step 5: Start second loop from index n-1 (last element)
+Step 6: Decrement index in each iteration
+Step 7: Print elements in reverse order
+Step 8: Original array remains unchanged
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: How to reverse array in-place (without extra space)?
+• Use two pointer approach
+• Initialize i=0 (start) and j=n-1 (end)
+• Swap elements at positions i and j
+• Increment i, decrement j
+• Continue until i >= j
+• Time: O(n), Space: O(1)
+• Algorithm:
+  while(i < j) {
+      temp = a[i];
+      a[i] = a[j];
+      a[j] = temp;
+      i++; j--;
+  }
+
+Q2: What is difference between printing reverse and reversing array?
+Printing Reverse:
+• Just display elements backwards
+• Original array unchanged
+• No swapping required
+• Space: O(1), Time: O(n)
+Reversing Array:
+• Physically swap elements in array
+• Original array modified
+• Requires swapping
+• Space: O(1) in-place, Time: O(n)
+
+Q3: What are different methods to reverse an array?
+Method 1: Two pointer swap (in-place)
+• Time: O(n), Space: O(1)
+Method 2: Using auxiliary array
+• Copy elements to new array in reverse
+• Time: O(n), Space: O(n)
+Method 3: Using recursion
+• Swap first and last, recurse for middle
+• Time: O(n), Space: O(n) stack space
+Method 4: Using stack
+• Push all to stack, pop to get reverse
+• Time: O(n), Space: O(n)
+*/
+
+/*
+===============================================================================
+PROGRAM 3: SUM OF ARRAY ELEMENTS
+===============================================================================
+Question: Write a C program to find the sum of all elements in an array.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void program3() {
+    int a[50], n, i, sum = 0;
+    
+    printf("Enter the size of your Array: ");
+    scanf("%d", &n);
+    
+    printf("Enter array elements:\n");
+    for(i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+        sum += a[i];  // Add each element to sum
+    }
+    
+    printf("Sum of elements of your Array = %d\n", sum);
+}
+
+/* OUTPUT:
+Enter the size of your Array: 5
+Enter array elements:
+12 14 16 18 20
+Sum of elements of your Array = 80
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Initialize sum variable to 0
+Step 2: Accept array size from user
+Step 3: In single loop, accept each element
+Step 4: Immediately add each element to sum (sum += a[i])
+Step 5: This is efficient - no separate loop needed
+Step 6: After loop completes, sum contains total
+Step 7: Display the final sum value
+Step 8: Time complexity: O(n), must visit each element
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What is time and space complexity of array sum?
+Time Complexity:
+• O(n) where n is number of elements
+• Must visit each element exactly once
+• Cannot be optimized further
+• Linear time is optimal for this problem
+Space Complexity:
+• O(1) constant space
+• Only one variable (sum) needed
+• Input array not counted in auxiliary space
+• Very space efficient algorithm
+
+Q2: How to handle integer overflow in sum calculation?
+Problem: Sum may exceed INT_MAX (2,147,483,647)
+Solutions:
+• Use 'long long' data type instead of int
+• Range: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+• Check before adding: if(sum > INT_MAX - a[i]) overflow!
+• Use modulo arithmetic if needed
+• Example: long long sum = 0;
+
+Q3: How to find average, minimum, and maximum?
+Average:
+• sum / n (use float for decimal precision)
+• float avg = (float)sum / n;
+Minimum:
+• Initialize min = a[0]
+• Compare with each element: if(a[i] < min) min = a[i];
+Maximum:
+• Initialize max = a[0]
+• Compare with each element: if(a[i] > max) max = a[i];
+• All can be done in single pass: O(n)
+*/
+
+/*
+===============================================================================
+PROGRAM 4: 2D MATRIX INPUT AND DISPLAY
+===============================================================================
+Question: Write a C program to accept and display a 3x3 matrix.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void program4() {
+    int a[3][3], i, j;
+    
+    printf("Enter elements of 3x3 matrix:\n");
+    for(i = 0; i < 3; i++)
+        for(j = 0; j < 3; j++)
+            scanf("%d", &a[i][j]);
+    
+    printf("Matrix:\n");
+    for(i = 0; i < 3; i++) {
+        for(j = 0; j < 3; j++)
+            printf("%d ", a[i][j]);
+        printf("\n");
+    }
+}
+
+/* OUTPUT:
+Enter elements of 3x3 matrix:
+2 4 6 8 10 12 14 16 18
+Matrix:
+2 4 6
+8 10 12
+14 16 18
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Declare 2D array a[3][3] (3 rows, 3 columns)
+Step 2: Use nested loops for input
+Step 3: Outer loop (i) iterates through rows (0 to 2)
+Step 4: Inner loop (j) iterates through columns (0 to 2)
+Step 5: Accept 9 elements row-wise from user
+Step 6: For display, use similar nested loop structure
+Step 7: Print newline after each row for proper formatting
+Step 8: Total 9 elements in 3×3 matrix
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: How is 2D array stored in memory?
+Row-Major Order (C language):
+• Elements stored row by row
+• a[0][0], a[0][1], a[0][2], a[1][0], a[1][1]...
+• Address formula: base + (i × cols + j) × size
+• Contiguous memory allocation
+Column-Major Order (Fortran):
+• Elements stored column by column
+• Used in languages like Fortran, MATLAB
+C uses row-major order for 2D arrays
+
+Q2: What are common matrix operations?
+Addition:
+• C[i][j] = A[i][j] + B[i][j]
+• Matrices must be same size
+• Time: O(rows × cols)
+Multiplication:
+• C[i][j] = Σ(A[i][k] × B[k][j])
+• A: m×n, B: n×p, Result: m×p
+• Time: O(m × n × p)
+Transpose:
+• Swap rows and columns
+• B[j][i] = A[i][j]
+• Time: O(rows × cols)
+Diagonal Sum, Trace, Determinant
+
+Q3: How to declare and pass 2D array to function?
+Declaration:
+• int a[3][4]; // 3 rows, 4 columns
+Passing to function:
+• Must specify column size
+• void func(int a[][4], int rows);
+• void func(int a[3][4]);
+• void func(int (*a)[4], int rows);
+Why column size needed:
+• For address calculation: a[i][j]
+• Address = base + (i × cols + j) × size
+• Compiler needs cols for calculation
+*/
+
+/*
+===============================================================================
+PROGRAM 5: QUEUE IMPLEMENTATION USING ARRAY
+===============================================================================
+Question: Write a C program to implement a simple queue using array.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void program5() {
+    int q[5];
+    int front = 0, rear = -1;
+    int i, n;
+    
+    printf("Enter number of elements (max 5): ");
+    scanf("%d", &n);
+    
+    if(n > 5) {
+        printf("Queue Overflow\n");
+    } else {
+        printf("Enter elements:\n");
+        for(i = 0; i < n; i++) {
+            scanf("%d", &q[++rear]);
+        }
+        
+        printf("Queue elements are:\n");
+        for(i = front; i <= rear; i++) {
+            printf("%d ", q[i]);
+        }
+        printf("\n");
+    }
+}
+
+/* OUTPUT:
+Enter number of elements (max 5): 4
+Enter elements:
+4 7 9 1
+Queue elements are:
+4 7 9 1
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Declare queue array of size 5
+Step 2: Initialize front=0 (first position), rear=-1 (empty)
+Step 3: Accept number of elements to insert
+Step 4: Check overflow condition (n > capacity)
+Step 5: For each element, increment rear first (++rear)
+Step 6: Insert element at position rear
+Step 7: Display elements from front to rear
+Step 8: Queue follows FIFO (First In First Out) principle
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What is Queue? Explain FIFO principle.
+Definition:
+• Linear data structure
+• Follows FIFO (First In First Out)
+• Elements added at rear (enqueue)
+• Elements removed from front (dequeue)
+Two ends:
+• Front: Where elements are removed
+• Rear: Where elements are added
+Real-world examples:
+• Ticket counter queue
+• Printer job queue
+• CPU scheduling
+• BFS algorithm
+
+Q2: What are queue operations and their complexities?
+Enqueue (Insert at rear):
+• Check if queue is full
+• Increment rear: rear++
+• Insert element: q[rear] = value
+• Time: O(1)
+Dequeue (Remove from front):
+• Check if queue is empty
+• Get element: value = q[front]
+• Increment front: front++
+• Time: O(1)
+Peek/Front:
+• Return q[front] without removing
+• Time: O(1)
+isEmpty: front > rear
+isFull: rear == SIZE-1
+
+Q3: What is problem with simple queue?
+Problem - Memory Wastage:
+• After dequeuing, front moves forward
+• Space before front cannot be reused
+• Example: After 3 dequeues, first 3 positions wasted
+• Queue becomes "full" even with empty front spaces
+Solution - Circular Queue:
+• Use modulo arithmetic
+• rear = (rear + 1) % SIZE
+• front = (front + 1) % SIZE
+• Reuses front space
+• More efficient memory utilization
+*/
+
+/*
+===============================================================================
+PROGRAM 6: STACK IMPLEMENTATION USING ARRAY
+===============================================================================
+Question: Write a C program to implement stack with push and pop operations.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 5
+
+void program6() {
+    int stack[SIZE];
+    int top = -1;
+    int choice, item, i;
+    
+    while(1) {
+        printf("\n\n1. Push\n2. Pop\n3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        if(choice == 1) {
+            if(top == SIZE - 1) {
+                printf("Stack is Full\n");
+            } else {
+                printf("Enter element to push: ");
+                scanf("%d", &item);
+                stack[++top] = item;
+                printf("Element pushed\n");
+            }
+        }
+        else if(choice == 2) {
+            if(top == -1) {
+                printf("Stack is Empty\n");
+            } else {
+                printf("Popped element: %d\n", stack[top--]);
+            }
+        }
+        else if(choice == 3) {
+            break;
+        }
+        else {
+            printf("Invalid choice\n");
+        }
+        
+        if(top == -1) {
+            printf("\nStack: Empty\n");
+        } else {
+            printf("\nStack elements: ");
+            for(i = top; i >= 0; i--)
+                printf("%d ", stack[i]);
+            printf("\n");
+        }
+    }
+}
+
+/* OUTPUT:
+1. Push
+2. Pop
+3. Exit
+Enter your choice: 1
+Enter element to push: 16
+Element pushed
+Stack elements: 16
+
+Enter your choice: 1
+Enter element to push: 31
+Element pushed
+Stack elements: 31 16
+
+Enter your choice: 1
+Enter element to push: 55
+Element pushed
+Stack elements: 55 31 16
+
+Enter your choice: 2
+Popped element: 55
+Stack elements: 31 16
+
+Enter your choice: 3
+*/
+
+/* STEP-BY-STEP EXPLANATION:
+Step 1: Define stack array with SIZE 5, top=-1 (empty)
+Step 2: Push operation:
+   - Check overflow: top == SIZE-1
+   - Increment top: ++top
+   - Insert element: stack[top] = item
+Step 3: Pop operation:
+   - Check underflow: top == -1
+   - Get element: item = stack[top]
+   - Decrement top: top--
+Step 4: Display shows elements from top to bottom
+Step 5: Top pointer always indicates last inserted element
+Step 6: Stack follows LIFO (Last In First Out)
+*/
+
+/* ORAL EXAM QUESTIONS & ANSWERS:
+
+Q1: What is Stack? Explain LIFO principle.
+Definition:
+• Linear data structure
+• Follows LIFO (Last In First Out)
+• Single end for all operations (top)
+• Last element inserted is first to be removed
+Operations:
+• Push: Insert at top
+• Pop: Remove from top
+• Peek: View top without removing
+Real-world examples:
+• Stack of plates
+• Browser back button
+• Undo operation in editors
+• Function call stack in recursion
+
+Q2: What are applications of stack in programming?
+Expression Evaluation:
+• Infix to Postfix conversion
+• Postfix evaluation
+• Parenthesis matching
+Function Calls:
+• Recursion management
+• Activation records storage
+• Return address storage
+Algorithms:
+• Depth First Search (DFS)
+• Tower of Hanoi
+• Backtracking problems
+Others:
+• Undo/Redo in text editors
+• Browser history
+• Memory management
+
+Q3: What is difference between Stack Overflow and Underflow?
+Stack Overflow:
+• Occurs when push on full stack
+• Condition: top == SIZE - 1
+• Error: Cannot insert more elements
+• Prevention: Check before push
+• Example: top=4 in size 5 array
+Stack Underflow:
+• Occurs when pop on empty stack
+• Condition: top == -1
+• Error: No elements to remove
+• Prevention: Check before pop
+• Example: Popping from newly created stack
+*/
+
+// Continue in next artifact due to length...
+
+
